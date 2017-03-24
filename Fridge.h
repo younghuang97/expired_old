@@ -23,6 +23,19 @@
 class Fridge
 {
 	unordered_map<string, set<Item>> myFridge;
+
+	/*
+	 * Adds an item to it's respective array of items, and if the array
+	 * doesn't exist, create one and add to the map
+	 */
+	void add(string item);
+
+	/*
+	 *
+	 */
+	void calcExp(string item);
 };
+
+
 
 #endif /* FRIDGE_H_ */
