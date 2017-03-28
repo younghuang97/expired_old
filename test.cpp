@@ -14,7 +14,7 @@ int main(int argc, char** argv)
 	Item* item1 = new Item("Carrot", 2017273, 2017303);
 	fridge->add(*item1);
 
-	//fridge->printContents();
+	fridge->printContents();
 
 	return 0;
 }

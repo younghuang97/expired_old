@@ -1,6 +1,8 @@
 CC=g++
 CXXFLAGS=-std=c++11
 
+# Not working with minGW, but works when sshing, decided to automakefile for now
+
 all: test
 
 test: Fridge.o Item.o

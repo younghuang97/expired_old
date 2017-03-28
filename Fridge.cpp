@@ -50,8 +50,8 @@ void Fridge::printContents()
 		for (auto it2 = itemMap.begin(); it2 != itemMap.end(); ++it2)
 		{
 			Item item = it2->second;
-			cout << "Item: " << item.getName() << ", Date Bought: ";
-			cout << item.getDateBought() << ", Date Expires: ";
+			cout << "Item: " << item.getName() << "; Date Bought: ";
+			cout << item.getDateBought() << "; Date Expires: ";
 			cout << item.getDateExpired() << endl;
 		}
 	}
@@ -69,8 +69,8 @@ void Fridge::printContents(int amount)
 		{
 			if (counter >= amount) return; // stop when amount is reached
 			Item item = it2->second;
-			cout << "Item: " << item.getName() << ", Date Bought: ";
-			cout << item.getDateBought() << ", Date Expires: ";
+			cout << "Item: " << item.getName() << "; Date Bought: ";
+			cout << item.getDateBought() << "; Date Expires: ";
 			cout << item.getDateExpired() << endl;
 			counter++;
 		}
