@@ -14,7 +14,7 @@ void Fridge::add(Item item)
 {
 	unordered_map<string, Item> itemMap;   // current set we are looking at
 
-	string strDayExp = to_string(item.getDateExpired());
+	string strDayExp = item.getDateExpired();
 	auto foundSet = myFridge.find(strDayExp);
 	string itemName = item.getName();
 
@@ -34,10 +34,23 @@ void Fridge::add(Item item)
 
 void Fridge::remove(Item item)
 {
-	string dateExp = to_string(item.getDateExpired());
+	string dateExp = item.getDateExpired();
 	auto foundSet = myFridge.find(dateExp);
 	auto itemMap = foundSet->second;
 	itemMap.erase(item.getName());
+}
+
+void Fridge::printDate(string date)
+{
+	string day;
+	string month;
+	string year;
+
+	day = date.substr(6, 2);
+	month = date.substr(4, 2);
+	year = date.substr(0, 4);
+
+	cout << day << "/" << month << "/" << year;
 }
 
 void Fridge::printContents()
@@ -51,8 +64,10 @@ void Fridge::printContents()
 		{
 			Item item = it2->second;
 			cout << "Item: " << item.getName() << "; Date Bought: ";
-			cout << item.getDateBought() << "; Date Expires: ";
-			cout << item.getDateExpired() << endl;
+			printDate(item.getDateBought());
+			cout << "; Date Expires: ";
+			printDate(item.getDateExpired());
+			cout << endl;
 		}
 	}
 }

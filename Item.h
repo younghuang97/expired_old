@@ -16,19 +16,19 @@ class Item
 {
 private:
 	const string name;
-	const int dateBought;
-	const int dateExpired;
+	const string dateBought;
+	const string dateExpired;
 	bool operator<(const Item& item) const;
 public:
 	// Constructors
-	Item(string name, int dateBought) :
+	Item(string name, string dateBought) :
 		name(name), dateBought(dateBought), dateExpired(0) {}
-	Item(string name, int dateBought, int dateExpired) :
+	Item(string name, string dateBought, string dateExpired) :
 		name(name), dateBought(dateBought), dateExpired(dateExpired) {}
 	// Accessors
 	const string& getName() const { return name; };
-	const int& getDateBought() const { return dateBought; };
-	const int& getDateExpired() const { return dateExpired; };
+	const string& getDateBought() const { return dateBought; };
+	const string& getDateExpired() const { return dateExpired; };
 };
 
 #endif /* ITEM_H_ */

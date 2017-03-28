@@ -20,6 +20,8 @@
 #include <unordered_map>
 #include "Item.h"
 
+using namespace std;
+
 class Fridge
 {
 private:
@@ -35,6 +37,11 @@ public:
 	 * Deletes an item from the Fridge
 	 */
 	void remove(Item item);
+
+	/*
+	 * Prints date in a prettier format
+	 */
+	void printDate(string date);
 
 	/*
 	 * Prints entire Fridge and the kitchen sink in order of expiration date
