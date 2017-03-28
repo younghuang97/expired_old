@@ -10,64 +10,34 @@
 
 using namespace std;
 
-void Fridge::add(string item, int dayBought)
+void Fridge::add(Item item)
 {
+	unordered_map<string, Item> itemMap;   // current set we are looking at
 
-	Item theItem;
-	unordered_set<Item> itemSet;
-
-	//TODO:
-	// first obtain expiration date of item
-	// then find set with expiration date
-	string dayExpStr;
-	auto foundSet = myFridge.find(dayExpStr);
+	string strDayExp = to_string(item.getDateExpired());
+	auto foundSet = myFridge.find(strDayExp);
+	string itemName = item.getName();
 
 	// add the element to the set if found
 	if (foundSet != myFridge.end())
 	{
-		int dayExp = calcExp(item);
-		theItem = new Item(item, dayBought, dayExp);
-		itemSet = foundSet->second;
-		itemSet.insert(theItem);
-	}  // otherwise create a set and insert the item
-	else
-	{
-		theItem = new Item(item, dayBought);
-		itemSet.insert(theItem);
-		myFridge.insert(make_pair(dayExpStr, itemSet));
+		int dayExp = calcExp(itemName);
+		itemMap = foundSet->second;
+		itemMap.insert(make_pair(itemName, item));
 	}
-}
-
-void Fridge::add(string item, int dayBought, int dayExp)
-{
-	Item theItem;
-	unordered_set<Item> itemSet;
-
-	string dayExpStr = to_string(dayExp);
-	auto foundSet = myFridge.find(dayExpStr);
-
-	// add the element to the set if found
-	if (foundSet != myFridge.end())
+	else // otherwise create a set and insert the item
 	{
-		int dayExp = calcExp(item);
-		theItem = new Item(item, dayBought, dayExp);
-		itemSet = foundSet->second;
-		itemSet.insert(theItem);
-	}  // otherwise create a set and insert the item
-	else
-	{
-		theItem = new Item(item, dayBought);
-		itemSet.insert(theItem);
-		myFridge.insert(make_pair(dayExpStr, itemSet));
+		itemMap.insert(make_pair(itemName, item));
+		myFridge.insert(make_pair(strDayExp, itemMap));
 	}
 }
 
 void Fridge::remove(Item item)
 {
-	string dateExp = to_string(item.dateExpired);
+	string dateExp = to_string(item.getDateExpired());
 	auto foundSet = myFridge.find(dateExp);
-	unordered_set<Item> itemSet = foundSet->second;
-	itemSet.erase(item);
+	auto itemMap = foundSet->second;
+	itemMap.erase(item.getName());
 }
 
 void Fridge::printContents()
@@ -75,14 +45,14 @@ void Fridge::printContents()
 	// every set
 	for(auto it = myFridge.begin(); it != myFridge.end(); ++it)
 	{
-		auto itemSet = it->second;
+		auto itemMap = it->second;
 		// every item in each set
-		for (auto it2 = itemSet.begin(); it2 != itemSet.end(); ++it2)
+		for (auto it2 = itemMap.begin(); it2 != itemMap.end(); ++it2)
 		{
-			Item item = *it2;
-			cout << "Item: " << item.name << ", Date Bought: ";
-			cout << item.dateBought << ", Date Expires: ";
-			cout << item.dateExpired << endl;
+			Item item = it2->second;
+			cout << "Item: " << item.getName() << ", Date Bought: ";
+			cout << item.getDateBought() << ", Date Expires: ";
+			cout << item.getDateExpired() << endl;
 		}
 	}
 }
@@ -93,32 +63,31 @@ void Fridge::printContents(int amount)
 	// every set
 	for(auto it = myFridge.begin(); it != myFridge.end(); ++it)
 	{
-		auto itemSet = it->second;
+		auto itemMap = it->second;
 		// every item in each set
-		for (auto it2 = itemSet.begin(); it2 != itemSet.end(); ++it2)
+		for (auto it2 = itemMap.begin(); it2 != itemMap.end(); ++it2)
 		{
 			if (counter >= amount) return; // stop when amount is reached
-			Item item = *it2;
-			cout << "Item: " << item.name << ", Date Bought: ";
-			cout << item.dateBought << ", Date Expires: ";
-			cout << item.dateExpired << endl;
+			Item item = it2->second;
+			cout << "Item: " << item.getName() << ", Date Bought: ";
+			cout << item.getDateBought() << ", Date Expires: ";
+			cout << item.getDateExpired() << endl;
 			counter++;
 		}
 	}
 }
-//TODO:, print by date of purchase
+//TODO:, print by date of purchase(this gonna be slow)
 void Fridge::printRecent(int amount)
 {
 
 }
+
 //TODO:
-int Fridge::calcExp(string item)
+int Fridge::calcExp(string item_name)
 {
+	int dateExp = 0;
 	// get today's date and add # of days stored in database field
 	// search through database
 	// set field of item to date found
-	return 0;
+	return dateExp;
 }
-
-
-

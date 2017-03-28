@@ -6,14 +6,13 @@
  */
 
 #include <string>
+#include "Item.h"
 
 using namespace std;
 
-/*bool Item::operator<(const Item& item)
+bool Item::operator<(const Item& item) const
 {
-	int value = this->name.compare(item.name);
+	int value = this->getName().compare(item.getName());
 	if (value < 0) return true;
 	else return false;
-}*/
-
-
+}

@@ -14,18 +14,21 @@ using namespace std;
 
 class Item
 {
-	string name;
-	int dateBought;
-	int dateExpired;
+private:
+	const string name;
+	const int dateBought;
+	const int dateExpired;
+	bool operator<(const Item& item) const;
+public:
+	// Constructors
 	Item(string name, int dateBought) :
 		name(name), dateBought(dateBought), dateExpired(0) {}
 	Item(string name, int dateBought, int dateExpired) :
 		name(name), dateBought(dateBought), dateExpired(dateExpired) {}
-
-	/*
-	 * Overloaded so a set of items can be obtained by name
-	 */
-	//bool operator<(const Item& item);
+	// Accessors
+	const string& getName() const { return name; };
+	const int& getDateBought() const { return dateBought; };
+	const int& getDateExpired() const { return dateExpired; };
 };
 
 #endif /* ITEM_H_ */

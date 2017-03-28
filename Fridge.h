@@ -17,34 +17,27 @@
 #define FRIDGE_H_
 
 #include <map>
-#include <unordered_set>
+#include <unordered_map>
 #include "Item.h"
 
 class Fridge
 {
-	map<string, unordered_set<Item>> myFridge;  // 1st param is date exp; 2nd param is set of items
-
+private:
+	map<string, unordered_map<string, Item>> myFridge;  // 1st param is date exp; 2nd param is set of items
+public:
 	/*
-	 * Adds an item to it's respective array of items, and if the array
-	 * doesn't exist, create one and add to the map. Goes through database
-	 * to find the date the item expires.
+	 * Adds an item to a set that denotes the expired date of the item
+	 * If no set exists for the date, then a new set is created.
 	 */
-	void add(string item, int dayBought);
+	void add(Item item);
 
 	/*
-	 * Adds an item to it's respective array of items, and if the array
-	 * doesn't exist, create one and add to the map. Uses user-provided
-	 * date for date expired.
-	 */
-	void add(string item, int dayBought, int dayExp);
-
-	/*
-	 * Deletes an item from the fridge
+	 * Deletes an item from the Fridge
 	 */
 	void remove(Item item);
 
 	/*
-	 * Prints entire fridge and the kitchen sink in order of expiration date
+	 * Prints entire Fridge and the kitchen sink in order of expiration date
 	 */
 	void printContents();
 
@@ -61,9 +54,7 @@ class Fridge
 	/*
 	 * Returns the # of expected days until the food expires
 	 */
-	int calcExp(string item);
+	int calcExp(string item_name);
 };
-
-
 
 #endif /* FRIDGE_H_ */
