@@ -11,9 +11,17 @@ int main(int argc, char** argv)
 {
 	Fridge* fridge = new Fridge();
 
-	Item* item1 = new Item("Carrot", "2017273", "2017303");
+	Item* item1 = new Item("Carrot", "20170327", "20170330");
+	Item* item2 = new Item("Cabbage", "20170329", "20170430");
+	Item* item3 = new Item("Beef", "20170330", "20170410");
+	Item* item4 = new Item("Bread", "20170329", "20170329");
 	fridge->add(*item1);
+	fridge->add(*item2);
+	fridge->add(*item3);
+	fridge->add(*item4);
 
-	fridge->printContents();
+	fridge->printContents(5);
+	cout << endl;
+	fridge->printRecent(5);
 	return 0;
 }

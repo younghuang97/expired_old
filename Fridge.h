@@ -18,14 +18,36 @@
 
 #include <map>
 #include <unordered_map>
+#include <set>
 #include "Item.h"
 
 using namespace std;
 
+/*
+ * Deterministically sorts Items by date bought, and if the dates are
+ * the same, then it is ordered alphabetically
+ */
+struct classcomp
+{
+	bool operator() (Item* const& lhs, Item* const& rhs) const
+	{
+		int value = lhs->getDateBought().compare(rhs->getDateBought());
+		if (value < 0) return true;
+		else if (value == 0)
+		{
+			int nameCmp = lhs->getName().compare(rhs->getName());
+			if (nameCmp < 0) return true;
+			else return false;
+		}
+		else return false;
+	}
+};
+
 class Fridge
 {
 private:
-	map<string, unordered_map<string, Item>> myFridge;  // 1st param is date exp; 2nd param is set of items
+	map<string, unordered_map<string, Item*>> myFridge;  //ordered by dateExpired
+	multiset<Item*, classcomp> purchasedSet;  //ordered by dateBought
 public:
 	/*
 	 * Adds an item to a set that denotes the expired date of the item
@@ -44,12 +66,7 @@ public:
 	void printDate(string date);
 
 	/*
-	 * Prints entire Fridge and the kitchen sink in order of expiration date
-	 */
-	void printContents();
-
-	/*
-	 * Prints 'amount' number items based on nearest expiration date
+	 * Prints 'amount' number items in order of expiration date
 	 */
 	void printContents(int amount);
 

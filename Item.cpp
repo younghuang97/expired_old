@@ -5,7 +5,6 @@
  *      Author: thele
  */
 
-#include <string>
 #include "Item.h"
 
 using namespace std;

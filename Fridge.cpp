@@ -12,7 +12,7 @@ using namespace std;
 
 void Fridge::add(Item item)
 {
-	unordered_map<string, Item> itemMap;   // current set we are looking at
+	unordered_map<string, Item*> itemMap;   // current set we are looking at
 
 	string strDayExp = item.getDateExpired();
 	auto foundSet = myFridge.find(strDayExp);
@@ -23,13 +23,14 @@ void Fridge::add(Item item)
 	{
 		int dayExp = calcExp(itemName);
 		itemMap = foundSet->second;
-		itemMap.insert(make_pair(itemName, item));
+		itemMap.insert(make_pair(itemName, &item));
 	}
 	else // otherwise create a set and insert the item
 	{
-		itemMap.insert(make_pair(itemName, item));
+		itemMap.insert(make_pair(itemName, &item));
 		myFridge.insert(make_pair(strDayExp, itemMap));
 	}
+	purchasedSet.insert(&item);
 }
 
 void Fridge::remove(Item item)
@@ -50,51 +51,49 @@ void Fridge::printDate(string date)
 	month = date.substr(4, 2);
 	year = date.substr(0, 4);
 
-	cout << day << "/" << month << "/" << year;
-}
-
-void Fridge::printContents()
-{
-	// every set
-	for(auto it = myFridge.begin(); it != myFridge.end(); ++it)
-	{
-		auto itemMap = it->second;
-		// every item in each set
-		for (auto it2 = itemMap.begin(); it2 != itemMap.end(); ++it2)
-		{
-			Item item = it2->second;
-			cout << "Item: " << item.getName() << "; Date Bought: ";
-			printDate(item.getDateBought());
-			cout << "; Date Expires: ";
-			printDate(item.getDateExpired());
-			cout << endl;
-		}
-	}
+	cout << month << "/" << day << "/" << year;
 }
 
 void Fridge::printContents(int amount)
 {
 	int counter = 0;
-	// every set
+	// iterates through sets
 	for(auto it = myFridge.begin(); it != myFridge.end(); ++it)
 	{
 		auto itemMap = it->second;
-		// every item in each set
+		// iterates through items in each set
 		for (auto it2 = itemMap.begin(); it2 != itemMap.end(); ++it2)
 		{
 			if (counter >= amount) return; // stop when amount is reached
-			Item item = it2->second;
-			cout << "Item: " << item.getName() << "; Date Bought: ";
-			cout << item.getDateBought() << "; Date Expires: ";
-			cout << item.getDateExpired() << endl;
 			counter++;
+
+			Item* item = it2->second;
+			cout << "Item: " << item->getName() << "; Date Bought: ";
+			printDate(item->getDateBought());
+			cout << "; Date Expires: ";
+			printDate(item->getDateExpired());
+			cout << endl;
 		}
 	}
 }
-//TODO:, print by date of purchase(this gonna be slow)
+
 void Fridge::printRecent(int amount)
 {
+	int counter = 0;
+	// iterates through items
+	for(auto it = purchasedSet.begin(); it != purchasedSet.end(); ++it)
+	{
+		Item* item= *it;
 
+		if (counter >= amount) return; // stop when amount is reached
+		counter++;
+
+		cout << "Item: " << item->getName() << "; Date Bought: ";
+		printDate(item->getDateBought());
+		cout << "; Date Expires: ";
+		printDate(item->getDateExpired());
+		cout << endl;
+	}
 }
 
 //TODO:
