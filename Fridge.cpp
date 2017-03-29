@@ -12,9 +12,6 @@ using namespace std;
 
 void Fridge::add(Item* item)
 {
-	unordered_map<string, Item*> itemMap1;
-	unordered_map<string, Item*> itemMap2;
-
 	string strDayExp = item->getDateExpired();
 	string strDayPur = item->getDatePurchased();
 
@@ -28,22 +25,22 @@ void Fridge::add(Item* item)
 	// add the element to the set if found
 	if (foundMap1 != expFridge.end())
 	{
-		itemMap1 = foundMap1->second;
-		itemMap1.insert(make_pair(itemName, item));
+		foundMap1->second.insert(make_pair(itemName, item));
 	}
 	else // otherwise create a new map and insert the item
 	{
+		map<string, Item*> itemMap1;
 		itemMap1.insert(make_pair(itemName, item));
 		expFridge.insert(make_pair(strDayExp, itemMap1));
 	}
 	// add the element to the set if found
 	if (foundMap2 != purFridge.end())
 	{
-		itemMap2 = foundMap2->second;
-		itemMap2.insert(make_pair(itemName, item));		
+		foundMap2->second.insert(make_pair(itemName, item));		
 	}
 	else // otherwise create a new map and insert the item
 	{
+		map<string, Item*> itemMap2;
 		itemMap2.insert(make_pair(itemName, item));
 		purFridge.insert(make_pair(strDayPur, itemMap2));
 	}

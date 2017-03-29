@@ -26,9 +26,10 @@ using namespace std;
 class Fridge
 {
 private:
-	map<string, unordered_map<string, Item*>> expFridge;  //ordered by dateExpired
-	map<string, unordered_map<string, Item*>> purFridge;  //ordered by dateBought
+	//map<string, map<string, Item*>> expFridge;  //ordered by dateExpired
+	map<string, map<string, Item*>> purFridge;  //ordered by dateBought
 public:
+map<string, map<string, Item*>> expFridge;
 	/*
 	 * Adds an item to a set that denotes the expired date of the item
 	 * If no set exists for the date, then a new set is created.

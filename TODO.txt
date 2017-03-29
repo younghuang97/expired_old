@@ -10,3 +10,4 @@
     So implement another add method
 9. Having the same key causes problems
 10. Consider what to do when adding duplicate items(all fields the same) -- Maybe have a quantity field to aid with this
+11. Is the operator< for Item even needed?
