@@ -23,42 +23,22 @@
 
 using namespace std;
 
-/*
- * Deterministically sorts Items by date bought, and if the dates are
- * the same, then it is ordered alphabetically
- */
-struct classcomp
-{
-	bool operator() (Item* const& lhs, Item* const& rhs) const
-	{
-		int value = lhs->getDateBought().compare(rhs->getDateBought());
-		if (value < 0) return true;
-		else if (value == 0)
-		{
-			int nameCmp = lhs->getName().compare(rhs->getName());
-			if (nameCmp < 0) return true;
-			else return false;
-		}
-		else return false;
-	}
-};
-
 class Fridge
 {
 private:
-	map<string, unordered_map<string, Item*>> myFridge;  //ordered by dateExpired
-	multiset<Item*, classcomp> purchasedSet;  //ordered by dateBought
+	map<string, unordered_map<string, Item*>> expFridge;  //ordered by dateExpired
+	map<string, unordered_map<string, Item*>> purFridge;  //ordered by dateBought
 public:
 	/*
 	 * Adds an item to a set that denotes the expired date of the item
 	 * If no set exists for the date, then a new set is created.
 	 */
-	void add(Item item);
+	void add(Item* item);
 
 	/*
 	 * Deletes an item from the Fridge
 	 */
-	void remove(Item item);
+	void remove(Item* item);
 
 	/*
 	 * Prints date in a prettier format

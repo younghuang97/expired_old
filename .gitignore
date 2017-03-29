@@ -1,2 +1,11 @@
-/Debug
-/Release
+#Compiled Object files
+*.o
+*.obj
+
+# No executables
+*.exe
+
+# Folder
+.settings/
+.vscode/
+Debug/

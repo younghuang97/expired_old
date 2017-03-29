@@ -10,35 +10,58 @@
 
 using namespace std;
 
-void Fridge::add(Item item)
+void Fridge::add(Item* item)
 {
-	unordered_map<string, Item*> itemMap;   // current set we are looking at
+	unordered_map<string, Item*> itemMap1;
+	unordered_map<string, Item*> itemMap2;
 
-	string strDayExp = item.getDateExpired();
-	auto foundSet = myFridge.find(strDayExp);
-	string itemName = item.getName();
+	string strDayExp = item->getDateExpired();
+	string strDayPur = item->getDatePurchased();
+
+	auto foundMap1 = expFridge.find(strDayExp);
+	auto foundMap2 = purFridge.find(strDayPur);
+
+	string itemName = item->getName();
+
+	//TODO: int dayExp = calcExp(itemName);
 
 	// add the element to the set if found
-	if (foundSet != myFridge.end())
+	if (foundMap1 != expFridge.end())
 	{
-		int dayExp = calcExp(itemName);
-		itemMap = foundSet->second;
-		itemMap.insert(make_pair(itemName, &item));
+		itemMap1 = foundMap1->second;
+		itemMap1.insert(make_pair(itemName, item));
 	}
-	else // otherwise create a set and insert the item
+	else // otherwise create a new map and insert the item
 	{
-		itemMap.insert(make_pair(itemName, &item));
-		myFridge.insert(make_pair(strDayExp, itemMap));
+		itemMap1.insert(make_pair(itemName, item));
+		expFridge.insert(make_pair(strDayExp, itemMap1));
 	}
-	purchasedSet.insert(&item);
+	// add the element to the set if found
+	if (foundMap2 != purFridge.end())
+	{
+		itemMap2 = foundMap2->second;
+		itemMap2.insert(make_pair(itemName, item));		
+	}
+	else // otherwise create a new map and insert the item
+	{
+		itemMap2.insert(make_pair(itemName, item));
+		purFridge.insert(make_pair(strDayPur, itemMap2));
+	}
 }
 
-void Fridge::remove(Item item)
+void Fridge::remove(Item* item)
 {
-	string dateExp = item.getDateExpired();
-	auto foundSet = myFridge.find(dateExp);
-	auto itemMap = foundSet->second;
-	itemMap.erase(item.getName());
+	string itemName = item->getName();
+	string dateExp = item->getDateExpired();
+	string datePur = item->getDatePurchased();
+
+	auto foundMap1 = expFridge.find(dateExp);
+	auto itemMap1 = foundMap1->second;
+	itemMap1.erase(itemName);
+
+	auto foundMap2 = purFridge.find(datePur);
+	auto itemMap2 = foundMap2->second;
+	itemMap2.erase(itemName);
 }
 
 void Fridge::printDate(string date)
@@ -58,7 +81,7 @@ void Fridge::printContents(int amount)
 {
 	int counter = 0;
 	// iterates through sets
-	for(auto it = myFridge.begin(); it != myFridge.end(); ++it)
+	for(auto it = expFridge.begin(); it != expFridge.end(); ++it)
 	{
 		auto itemMap = it->second;
 		// iterates through items in each set
@@ -69,7 +92,7 @@ void Fridge::printContents(int amount)
 
 			Item* item = it2->second;
 			cout << "Item: " << item->getName() << "; Date Bought: ";
-			printDate(item->getDateBought());
+			printDate(item->getDatePurchased());
 			cout << "; Date Expires: ";
 			printDate(item->getDateExpired());
 			cout << endl;
@@ -81,18 +104,22 @@ void Fridge::printRecent(int amount)
 {
 	int counter = 0;
 	// iterates through items
-	for(auto it = purchasedSet.begin(); it != purchasedSet.end(); ++it)
+	for(auto it = purFridge.begin(); it != purFridge.end(); ++it)
 	{
-		Item* item= *it;
+		auto itemMap = it->second;
+		// iterates through items in each set
+		for (auto it2 = itemMap.begin(); it2 != itemMap.end(); ++it2)
+		{
+			if (counter >= amount) return; // stop when amount is reached
+			counter++;
 
-		if (counter >= amount) return; // stop when amount is reached
-		counter++;
-
-		cout << "Item: " << item->getName() << "; Date Bought: ";
-		printDate(item->getDateBought());
-		cout << "; Date Expires: ";
-		printDate(item->getDateExpired());
-		cout << endl;
+			Item* item = it2->second;
+			cout << "Item: " << item->getName() << "; Date Bought: ";
+			printDate(item->getDatePurchased());
+			cout << "; Date Expires: ";
+			printDate(item->getDateExpired());
+			cout << endl;
+		}
 	}
 }
 

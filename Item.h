@@ -16,18 +16,22 @@ class Item
 {
 private:
 	const string name;
-	const string dateBought;
+	const string datePurchased;
 	const string dateExpired;
+	/*
+	 * Sorts Items by their name field, used for accessing items in an
+	 * unordered_map.
+	 */
 	bool operator<(const Item& item) const;
 public:
 	// Constructors
-	Item(string name, string dateBought) :
-		name(name), dateBought(dateBought), dateExpired(0) {}
-	Item(string name, string dateBought, string dateExpired) :
-		name(name), dateBought(dateBought), dateExpired(dateExpired) {}
+	Item(string name, string datePurchased) :
+		name(name), datePurchased(datePurchased), dateExpired(0) {}
+	Item(string name, string datePurchased, string dateExpired) :
+		name(name), datePurchased(datePurchased), dateExpired(dateExpired) {}
 	// Accessors
 	const string& getName() const { return name; };
-	const string& getDateBought() const { return dateBought; };
+	const string& getDatePurchased() const { return datePurchased; };
 	const string& getDateExpired() const { return dateExpired; };
 };
 
